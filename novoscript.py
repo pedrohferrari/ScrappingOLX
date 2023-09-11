@@ -12,7 +12,6 @@ import os
 devoProcessar = True
 # Varíavel para controlar o número de páginas com anúncio
 pagina = 1
-
 # Criando os atributos principais de cada anúncio.
 id = []
 titulo = []
