@@ -40,11 +40,43 @@ atributos = {
     'Quitado': []
 }   
 
+
+filtros = {
+    'montadora': 'peugeot',
+    'estado' : 'es',
+    'carropesquisado' : '208',
+    'anoinicio' : '2016',
+    'anofim' : '2019'
+}
+
+def valorcorrespondente(ano):
+    ano_base = 2010
+    valor_base = 60
+    return valor_base + (ano - ano_base)
+
+if filtros['anofim'] != '':
+    filtros['anofim'] = valorcorrespondente(int(filtros['anofim']))
+
+if filtros['anoinicio'] != '':
+    filtros['anoinicio'] = valorcorrespondente(int(filtros['anoinicio']))
+
+
+link = 'https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/'
+
+parametromontadora = f"{filtros['montadora']}/"
+parametroestado = f"estado-{filtros['estado']}"
+parametrocarro = f"?q={filtros['carropesquisado']}"
+parametroanoinicio = f"&rs={filtros['anoinicio']}"
+parametroanofim = f"&re={filtros['anofim']}"
+
+if filtros['estado'] != '':
+    link = link + parametromontadora +  parametroestado + parametrocarro + parametroanofim + parametroanoinicio + '&o='
+else:
+    link = link + parametromontadora + parametrocarro + parametroanofim + parametroanoinicio + '&o='
+
 while devoProcessar:
 
-    link = 'https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/peugeot/208/estado-es?q=208&re=69&rs=66&o=' + str(pagina)
-    filename = 'acompanhamento208'
-
+    link = link + str(pagina)
 
     # Request da url.
     header = {'user-agent': 'Mozila/5.0'}
@@ -63,8 +95,6 @@ while devoProcessar:
 
     # Transformando o JSON em dicionário.
     data_dict = json.loads(json_data)
-
-
 
     # Retornando a lista com os atributos principais de cada anúncio.
     anuncios = data_dict['props']['pageProps']['ads']
