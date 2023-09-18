@@ -1,1 +1,0 @@
-worker: python novoscript.py
